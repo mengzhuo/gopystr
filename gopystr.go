@@ -1,14 +1,23 @@
 package gopystr
 
 import (
+	"bytes"
 	"fmt"
 	"reflect"
 	"strconv"
 )
 
-func str(obj interface{}) (s string, err error) {
+func Str(obj interface{}) (s string) {
 
-	switch v := reflect.ValueOf(obj); v.Kind() {
+	v := reflect.ValueOf(obj)
+	typ := reflect.TypeOf(obj)
+
+	if typ.Kind() == reflect.Ptr {
+		typ = typ.Elem()
+		v = v.Elem()
+	}
+
+	switch typ.Kind() {
 
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		s = strconv.FormatInt(v.Int(), 10)
@@ -24,12 +33,33 @@ func str(obj interface{}) (s string, err error) {
 		}
 	case reflect.String:
 		s = v.String()
+
 	case reflect.Ptr:
-		if ss, err := str(v.Pointer()); err != nil {
-			s = ss
+		v := v.Elem()
+		s = Str(v)
+	case reflect.Map:
+		if typ.Key().Kind() != reflect.String {
+			s = "{}"
+		} else {
+			var buf bytes.Buffer
+			buf.WriteByte('{')
+
+			for i, k := range v.MapKeys() {
+				if i > 0 {
+					buf.WriteByte(',')
+				}
+				buf.WriteByte('"')
+				buf.WriteString(k.String())
+				buf.WriteByte('"')
+				buf.WriteByte(':')
+				buf.WriteString(Str(v.MapIndex(k)))
+			}
+			buf.WriteByte('}')
+			s = buf.String()
 		}
+
 	default:
-		err = fmt.Errorf("Unknow type")
+		s = fmt.Sprintf("%+qv", obj)
 	}
 	return
 }

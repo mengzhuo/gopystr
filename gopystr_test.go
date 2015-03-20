@@ -60,19 +60,19 @@ func TestBool(t *testing.T) {
 
 func TestMapStringKeyIntValue(t *testing.T) {
 	d := *&map[string]int{"A": 1, "B": 2}
-	if v := Str(d); v != "{'A':1, 'B':2}" {
+	if v := Str(d); v != "{'A': 1, 'B': 2}" {
 		t.Error("Map conv failed with False", d, v)
 	}
 }
 func TestMapStringKeyStringValue(t *testing.T) {
 	d := *&map[string]string{"A": "NOT A", "B": "NOT B"}
-	if v := Str(d); v != "{'A':'NOT A', 'B':'NOT B'}" {
+	if v := Str(d); v != "{'A': 'NOT A', 'B': 'NOT B'}" {
 		t.Error("Map conv failed with False", d, v)
 	}
 }
 func TestMapStringKeyStringValuePtr(t *testing.T) {
 	d := &map[string]string{"A": "NOT A", "B": "NOT B"}
-	if v := Str(d); v != "{'A':'NOT A', 'B':'NOT B'}" {
+	if v := Str(d); v != "{'A': 'NOT A', 'B': 'NOT B'}" {
 		t.Error("Map conv failed with False", d, v)
 	}
 }
@@ -98,8 +98,15 @@ func TestStruct(t *testing.T) {
 	d.I = 1
 	d.M = *&map[string]int{"M1": 1, "M2": 2}
 
-	if v := Str(d); v != "{'S':'A', 'I':1, 'M':'{'M1':1, 'M2':2}'}" {
+	if v := Str(d); v != "{'S': 'A', 'I': 1, 'M': {'M1': 1, 'M2': 2}}" {
 		t.Error("conv failed", d, v)
 	}
 
+	type Oyster struct {
+		Closed bool
+	}
+	o := &Oyster{true}
+	if v := Str(o); v != "{'Closed': True}" {
+		t.Error("conv failed", o, v)
+	}
 }

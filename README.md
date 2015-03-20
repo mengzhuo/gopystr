@@ -1,2 +1,7 @@
 # gopystr
-Parse Golang types to Python String like str() in Python
+Parse Golang instances to Python String like str() in Python
+
+Install
+--------
+```go get github.com/mengzhuo/gopystr```
+

@@ -26,9 +26,9 @@ import (
 //		// Struct also supported
 //		type Oyster struct {
 //			Closed bool
-//      }
-//      o := &Oyster{true}
-//      gopystr.Str(o) // {"Closed":True}
+//		}
+//		o := &Oyster{true}
+//		gopystr.Str(o) // {"Closed":True}
 func Str(obj interface{}) (s string) {
 
 	v := reflect.ValueOf(obj)

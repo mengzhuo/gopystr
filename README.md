@@ -12,3 +12,5 @@ Simply
 ```
 gopystr.Str(1) // "1"
 ```
+
+[Doc is Here](https://godoc.org/github.com/mengzhuo/gopystr)

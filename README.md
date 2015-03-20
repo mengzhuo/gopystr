@@ -1,9 +1,14 @@
-# gopystr
+# gopystr #
 Parse Golang instances to Python String like str() in Python
 
 ![Build Status](https://travis-ci.org/mengzhuo/gopystr.svg?branch=master)
 
-Install
---------
+## Install ##
 ```go get github.com/mengzhuo/gopystr```
 
+## Usage ##
+Simply 
+
+```
+gopystr.Str(1) // "1"
+```

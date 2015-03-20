@@ -29,7 +29,6 @@ import (
 //      }
 //      o := &Oyster{true}
 //      gopystr.Str(o) // {"Closed":True}
-
 func Str(obj interface{}) (s string) {
 
 	v := reflect.ValueOf(obj)
